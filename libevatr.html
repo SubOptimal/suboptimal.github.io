@@ -16,7 +16,7 @@
 				<div id="menu">
 					<div id="menu_inner">
 						<ul>
-							<li class="selected">
+							<li>
 								<a href="http://SubOptimal.github.com" title="root page">
 								<span>/</span>
 								</a>
@@ -33,13 +33,13 @@
 									</li>
 								</ul>
 							</li>
-							<li>
+							<li class="selected">
 								<a href="http://SubOptimal.github.com" title="Java projects">
 									<span>Java</span>
 								</a>
 								<ul>
 									<li>
-										<a href="http://suboptimal.github.com/libevatr.html">
+										<a href="http://SubOptimal.github.com/libevatr.html">
 											<span>libevatr</span>
 										</a>
 									</li>
@@ -52,10 +52,22 @@
 			</div>
 		</div>
 		<div id="body_inner">
-			<h1>spare time projects</h1>
-				This tiny page aim to give a short overview about some of my spare time projects.<br />
-				Navigate through the menu to get a short description for each project.<br />
-				To jump straight to the root of all source repositories click on the logo above.<br />
+			<h1>libevatr</h1>
+				libevatr is a Java library which provides access to the online XML-RPC service
+				of federal central office for taxes (in Germany) to confirm value added tax
+				identification numbers and addresses of foreign (European) companies.<br /><br />
+				<h3> Features</h3>
+    			* simple validation: confirms the foreign VAT ID number only<br /><br />
+    			* qualified validation: confirms the foreign VAT ID number, company name and city<br />
+    			Within the qualified validation optionally the ZIP code and street can be confirmed. Additional
+    			a printed confirmation for your request can be requested. It will be send out by the
+    			federal central office for taxes by postal mail.<br />
+    			<b>note:</b> The confirmation will be send to the address linked to your company VAT ID.<br />
+				<br />
+				The official page on the website of federal central office for taxes:<br />
+				<a href="http://evatr.bff-online.de/eVatR/xmlrpc/">http://evatr.bff-online.de/eVatR/xmlrpc</a><br />
+				<br />
+				source repository: <a href="https://github.com/SubOptimal/libevatr">https://github.com/SubOptimal/libevatr</a>
 		</div>
 		<div id="footer">
 			© 2011&nbsp;&nbsp;/&nbsp;&nbsp;<a href="http://creativecommons.org/licenses/by-nc-sa/2.0/" title="license of the web page">Creative Commons License</a> 
