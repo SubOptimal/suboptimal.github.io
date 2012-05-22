@@ -156,6 +156,12 @@ body {
 	font-size: 1em;
 }
 
+/* country flag to switch the website language */
+img.country_flag {
+  float: left;
+  margin: 5px;
+}
+
 #continue_flow {
 	clear: both;
 }
