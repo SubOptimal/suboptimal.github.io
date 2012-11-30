@@ -2,49 +2,61 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" >
   <url>
     <loc>http://suboptimal.github.com/index.html</loc>
-    <lastmod>2012-05-22</lastmod>
+    <lastmod>2012-11-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://suboptimal.github.com/index_de.html</loc>
-    <lastmod>2012-05-22</lastmod>
+    <lastmod>2012-11-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://suboptimal.github.com/android-network-discovery.html</loc>
-    <lastmod>2012-05-22</lastmod>
+    <lastmod>2012-11-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>http://suboptimal.github.com/android-network-discovery_de.html</loc>
-    <lastmod>2012-05-22</lastmod>
+    <lastmod>2012-11-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>http://suboptimal.github.com/libevatr.html</loc>
-    <lastmod>2012-05-22</lastmod>
+    <lastmod>2012-11-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>http://suboptimal.github.com/libevatr_de.html</loc>
-    <lastmod>2012-05-22</lastmod>
+    <lastmod>2012-11-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>http://suboptimal.github.com/WMS-Setup.html</loc>
-    <lastmod>2012-05-22</lastmod>
+    <lastmod>2012-11-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>http://suboptimal.github.com/WMS-Setup_de.html</loc>
-    <lastmod>2012-05-22</lastmod>
+    <lastmod>2012-11-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://suboptimal.github.com/zon-java.html</loc>
+    <lastmod>2012-11-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://suboptimal.github.com/zon-java_de.html</loc>
+    <lastmod>2012-11-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
