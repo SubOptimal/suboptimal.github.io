@@ -22,7 +22,7 @@
 								<span>/</span>
 							</a>
 						</li>
-						<li class="selected">
+						<li>
 							<a href="/index_de.html" title="Projekte für Android Geräte">
 								<span>Android</span>
 							</a>
@@ -61,7 +61,7 @@
 								</li>
 							</ul>
 						</li>
-						<li>
+						<li class="selected">
 							<a href="/index_de.html" title="Perl Projekte">
 								<span>Perl</span>
 							</a>
@@ -80,24 +80,31 @@
 		</div>
 	</div>
 	<div id="body_inner">
-		<h1>Fork: android-network-discovery</h1>
-		PC Ermittlung/Zuordnung (über WLAN) und Port-Scan-Werkzeug (über 3G/WLAN) für Geräte mit Android.<br><br />
-		<h3>Funktionen</h3>
-		* ermittelt PCs in einem LAN (Ermittlung über Verbindungs-/Ping- oder DNS-Test)<br>
-		* TCP Port-Scanner (connect() Scan)<br>
-		* Datenbank zur Identifizierung des NIC-Herstellers<br>
-		* exportieren des Ergebnisses im XML-Format auf die SD-Karte<br>
-		* Schnellzugriff auf WLAN Einstellungen<br>
-		* adaptive Scan-Geschwindigkeit (langsamerer Start, dann Anpassung an die Netzwerklatenz)<br>
-		* Open Source, verfügbar unter <a href="https://github.com/rorist/android-network-discovery" target="_blank">https://github.com/rorist/android-network-discovery</a><br>
+		<h1>Fork: extm3u.pl</h1>
+		Dieses Skript erzeugt eine Abspielliste im erweiterten <a href="http://de.wikipedia.org/wiki/M3U" target="_blank">M3U</a> Format. Die Abspielliste kann zur Wiedergabe<br />
+		mit Programmen wie z.B. <a href="http://de.wikipedia.org/wiki/Audacious" target="_blank">Audacious</a>, <a href="http://de.wikipedia.org/wiki/Totem_Media_Player" target="_blank">Totem</a>, <a href="http://de.wikipedia.org/wiki/Winamp" target="_blank">Winamp</a>&trade; und vielen Anderen verwendet werden.<br />
+		Die Ausgabe der Abspielliste erfolgt auf die Standardausgabe (STDOUT). Somit können andere Programmen sie<br />
+		direkt einlesen.<br />
+		Abspiellisten im erweiteten .m3u Format enthalten noch zusätzliche Informationen zu den einzelnen Stücken, die<br />
+		Spieldauer und den Text der durch das Abspielprogramm angezeigt werden soll. Diese Informationen werden aus<br />
+		den so genannten Tags der Musikdateien extrahiert.<br />
 		<br>
-		Fork des Quellcode-Repository zur Beteiligung : <a href="https://github.com/SubOptimal/android-network-discovery">https://github.com/SubOptimal/android-network-discovery</a>
+		<h3>Eigenschaften</h3>
+		* liest die Dateinamen von den angegebenen Verzeichnissen oder von der Standardeingabe (STDIN)<br>
+		* Ausgabe der Abspielliste auf die Standardausgabe (STDOUT)<br />
+		* unterstützte Media Tags: ID3 (MP3), Vorbis (FLAC, OGG) (optionale Perl Pakete benötigt)<br />
+		* die Abspielliste kann in einer Zufallsreihenfolge erstellte werden<br>
+		* Zeilenende (CR, CRLF) und Dateitrennzeichen ('/', '') können definiert werden<br>
+		<br>
+		* Open Source, verfügbar unter <a href="https://github.com/splitbrain/extm3u.git" target="_blank">https://github.com/splitbrain/extm3u.git</a><br>
+		<br>
+		Fork des Quellcode-Repository zur Beteiligung: <a href="https://github.com/SubOptimal/extm3u.git">https://github.com/SubOptimal/extm3u.git</a>
 	</div>
 	<div id="footer">
-		<a id="language_de" name="language_de" href="android-network-discovery_de.html" title="Webseite auf deutsch anzeigen [ALT-G]" accesskey="g">
+		<a id="language_de" name="language_de" href="extm3u_de.html" title="Webseite auf deutsch anzeigen [ALT-G]" accesskey="g">
 			<img class="country_flag" alt="Flagge - Deutschland" src="img/de.png">
 		</a>
-		<a id="language_en" name="language_en" href="android-network-discovery.html" title="Webseite auf English anzeigen [ALT-E]" accesskey="e">
+		<a id="language_en" name="language_en" href="extm3u.html" title="Webseite auf English anzeigen [ALT-E]" accesskey="e">
 			<img class="country_flag" alt="Flagge - Vereinigtes Königreich" src="img/en.png">
 		</a>
 		&copy;&nbsp;2011-2013&nbsp;&nbsp;/&nbsp;&nbsp;<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" title="Lizens der Webseite" target="_blank">Creative Commons License</a>
