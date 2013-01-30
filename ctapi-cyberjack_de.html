@@ -34,7 +34,7 @@
 								</li>
 							</ul>
 						</li>
-						<li>
+						<li class="selected">
 							<a href="/index_de.html" title="C/C++ projects">
 								<span>C/C++</span>
 							</a>
@@ -46,7 +46,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class="selected">
+						<li>
 							<a href="/index_de.html" title="Java Projekte">
 								<span>Java</span>
 							</a>
@@ -92,28 +92,50 @@
 		</div>
 	</div>
 	<div id="body_inner">
-		<h1>Java Bibliothek libevatr</h1>
-		libevatr ist eine Java Bibliothek, die den einfachen Zugriff auf den XML-RPC Service 
-		des Bundeszentralamt für Steuern (BZSt), zur Bestätigung von 
-		Umsatzsteuer-Identifikationsnummern (USt-IdNr) und Adressdaten europäischer Firmen, ermöglicht.<br><br>
+		<h1>Fork: ctapi-cyberjack</h1>
+		Dieser Treiber für die Familie der REINER SCT cyberJack pinpad/e-com<br>
+		USB Smart Card-Lesegeräte implementiert die CT-API 1.1 Schnittstelle<br>
+		und ebenso die PC/SC Schnittstelle für pcsc-lite.<br>
+		<br>
+		Folgende Reiner SCT Lesegeräte werden unterstützt:<br>
+		<div id="tbl_reader">
+			<table class="tbl_reader">
+				<thead>
+					<tr><th>Produkt</th><th>VendorID:ProductID</th></tr>
+				</thead>
+				<tbody>
+					<tr><td class="reader">REINER SCT cyberJack pinpad USB</td><td>0c4d:0100</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack pinpad USB</td><td>0c4d:0100</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com USB</td><td>0c4d:0100</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack pinpad(a) USB</td><td>0c4d:0300</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com(a)</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus DUO</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus BIO</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus RFID</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack Secoder</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com(f)</td><td>0c4d:0401</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com BIO</td><td>0c4d:0401</td></tr>
+				</tbody>
+			</table>
+		</div><br>
+		Informationen über die Smart Card Lesegeräte finden Sie auf der Herstellerseite<br>
+		unter <a href="http://www.reiner-sct.com/" target="_blank">http://www.reiner-sct.com</a><br>
+		<br>
 		<h3>Funktionen</h3>
-		* einfache Bestätigung: Bestätigung der ausländischen USt-IdNr<br>
-		* qualifizierte Bestätigung: Bestätigung der ausländischen USt-IdNr, Name der Firma, Ort des Firmensitzes<br>
-		Mittels einer qualifizierten Bestätigung können auch PLZ, Straße und Hausnummer des Firmensitzes 
-		validiert werden.<br>
-		Zusätzlich kann eine amtliche Bestätigungsmitteilung angefordert werden.<br>
-		<b>Achtung:</b> Diese wird vom Bundeszentralamt für Steuern (BZSt) auf postalischem Weg an die anfragende Firma versandt.<br>
+		* zu 100% im Userspace implementiert<br>
+		* alle Zugriffe erfolgen über das USB devfs in /proc/bus/usb (oder /dev/bus/usb bei Verwendung von udev)<br>
+		* ein Patch wurde implementiert, damit der Sourcecode mit gcc 4.7 kompiliert werden kann,<br>
+		&nbsp;&nbsp;&nbsp;inklusive einer Anleitung zum erstellung von Paketen für Debian Wheezy<br>
+		* Open Source, verfügbar unter <a href="https://github.com/larskanis/ctapi-cyberjack.git" target="_blank">https://github.com/larskanis/ctapi-cyberjack.git</a><br>
 		<br>
-		Offizielle Webseite der XML-RPC Schnittstelle beim Bundeszentralamt für Steuern (BZSt):<br>
-		<a href="http://evatr.bff-online.de/eVatR/xmlrpc/" target="_blank">http://evatr.bff-online.de/eVatR/xmlrpc</a><br>
-		<br>
-		Quellcode-Repository: <a href="https://github.com/SubOptimal/libevatr">https://github.com/SubOptimal/libevatr</a>
+		Fork des Quellcode-Repository zur Beteiligung: <a href="https://github.com/SubOptimal/ctapi-cyberjack.git">https://github.com/SubOptimal/ctapi-cyberjack.git</a>
 	</div>
 	<div id="footer">
-		<a id="language_de" name="language_de" href="libevatr_de.html" title="Webseite auf deutsch anzeigen [ALT-G]" accesskey="g">
+		<a id="language_de" name="language_de" href="ctapi-cyberjack_de.html" title="Webseite auf deutsch anzeigen [ALT-G]" accesskey="g">
 			<img class="country_flag" alt="Flagge - Deutschland" src="img/de.png">
 		</a>
-		<a id="language_en" name="language_en" href="libevatr.html" title="Webseite auf English anzeigen [ALT-E]" accesskey="e">
+		<a id="language_en" name="language_en" href="ctapi-cyberjack.html" title="Webseite auf English anzeigen [ALT-E]" accesskey="e">
 			<img class="country_flag" alt="Flagge - Vereinigtes Königreich" src="img/en.png">
 		</a>
 		&copy;&nbsp;2011-2013&nbsp;&nbsp;/&nbsp;&nbsp;<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" title="Lizens der Webseite" target="_blank">Creative Commons License</a>

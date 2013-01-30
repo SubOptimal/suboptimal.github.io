@@ -34,7 +34,7 @@
 								</li>
 							</ul>
 						</li>
-						<li>
+						<li class="selected">
 							<a href="/index.html" title="C/C++ projects">
 								<span>C/C++</span>
 							</a>
@@ -46,7 +46,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class="selected">
+						<li>
 							<a href="/index.html" title="Java projects">
 								<span>Java</span>
 							</a>
@@ -92,37 +92,49 @@
 		</div>
 	</div>
 	<div id="body_inner">
-		<h1>forked: jMemorize</h1>
-		Learning made easy (and fun) - A Leitner flashcards tool<br><br>
-		<h3>Description</h3>
-		jMemorize is a free open-source Java application that manages your learning processes by<br>
-		using flashcards and the famous Leitner system. jMemorize makes memorizing facts not only<br>
-		more efficient but also more fun. It boosts your whole learning experience and features<br>
-		categories, statistics and a visually appealing and intuitive interface<br><br>
-		<h3>Features</h3>
-		* Absolutely free and open source!<br>
-		* Runs with Windows, Linux, Mac and any other operating system that supports Java<br>
-		* Maintain hundreds of flash cards and arrange them by categories<br>
-		* Cards are fully Unicode powered, of course<br>
-		* Uses text formatting on your cards<br>
-		* Attach images to your cards<br>
-		* Features an intelligent learning algorithm that knows when you should learn which cards<br>
-		* Check your learn status at a glance with the motivating learn chart<br>
-		* Import and export different file formats like XML, CSV, RTF and PDF for easy printing<br>
-		* Customize your learn session settings in numerous ways, including which category and<br>
-		  what types of cards to learn, adding time limits, learning cards with flipped card sides<br>
-		  and choosing from different learn schedules<br>
-		* Select from current 18 translations, including German, Portuguese, Dutch, Danish and others<br>
-		* And much, much more...<br>
-		* Open Source, available at <a href="https://github.com/riadd/jMemorize.git" target="_blank">https://github.com/riadd/jMemorize.git</a><br>
+		<h1>Fork: ctapi-cyberjack</h1>
+		This driver for the REINER SCT cyberJack pinpad/e-com USB<br>
+		family of smart card readers implements the CT-API 1.1 interface,<br>
+		as well as the PC/SC interface of pcsc-lite.<br>
 		<br>
-		source repository forked to contribute: <a href="https://github.com/SubOptimal/jMemorize">https://github.com/SubOptimal/jMemorize</a>
+		The following Reiner-SCT readers are supported:<br>
+		<div id="tbl_reader">
+			<table class="tbl_reader">
+				<thead>
+					<tr><th>Product</th><th>VendorID:ProductID</th></tr>
+				</thead>
+				<tbody>
+					<tr><td class="reader">REINER SCT cyberJack pinpad USB</td><td>0c4d:0100</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack pinpad USB</td><td>0c4d:0100</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com USB</td><td>0c4d:0100</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack pinpad(a) USB</td><td>0c4d:0300</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com(a)</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus DUO</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus BIO</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus RFID</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack Secoder</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com(f)</td><td>0c4d:0401</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com BIO</td><td>0c4d:0401</td></tr>
+				</tbody>
+			</table>
+		</div><br>
+		For more information about the smart card reader itself please<br>
+		visit <a href="http://www.reiner-sct.com/" target="_blank">http://www.reiner-sct.com</a><br>
+		<br>
+		<h3>Features</h3>
+		* implemented 100% in userspace<br>
+		* all accesses are done via the usb devfs in /proc/bus/usb (or /dev/bus/usb for udev-based systems)<br>
+		* patch implemented to compile with gcc 4.7, including a HOWTO for Debian Wheezy<br>
+		* Open Source, available at <a href="https://github.com/larskanis/ctapi-cyberjack.git" target="_blank">https://github.com/larskanis/ctapi-cyberjack.git</a><br>
+		<br>
+		source repository forked to contribute: <a href="https://github.com/SubOptimal/ctapi-cyberjack.git">https://github.com/SubOptimal/ctapi-cyberjack.git</a>
 	</div>
 	<div id="footer">
-		<a id="language_de" name="language_de" href="jMemorize_de.html" title="show website in german [ALT-G]" accesskey="g">
+		<a id="language_de" name="language_de" href="ctapi-cyberjack_de.html" title="show website in german [ALT-G]" accesskey="g">
 			<img class="country_flag" alt="country flag - Germany" src="img/de.png">
 		</a>
-		<a id="language_en" name="language_en" href="jMemorize.html" title="show website in english [ALT-E]" accesskey="e">
+		<a id="language_en" name="language_en" href="ctapi-cyberjack.html" title="show website in english [ALT-E]" accesskey="e">
 			<img class="country_flag" alt="country flag - United Kingdom" src="img/en.png">
 		</a>
 		&copy;&nbsp;2011-2013&nbsp;&nbsp;/&nbsp;&nbsp;<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" title="license of the web page" target="_blank">Creative Commons License</a>
