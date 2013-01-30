@@ -147,6 +147,29 @@ body {
 	background: #DDD;
 }
 
+/* supported reader table */
+#tbl_reader table, th, td {
+	border: 1px solid #000;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+
+#tbl_reader td.reader {
+    text-align: left;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+#tbl_reader th {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    background-color: #ccc;
+}
+
+#tbl_reader tr:hover {
+    background-color: #eee;
+}
 
 #footer {
 	background: #ccc;
