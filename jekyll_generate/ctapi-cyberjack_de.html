@@ -1,0 +1,47 @@
+---
+layout: default_de
+permalink: /ctapi-cyberjack_de.html
+c_selected: ' class="selected"'
+href_en: ctapi-cyberjack.html
+href_de: ctapi-cyberjack_de.html
+---
+	<div id="body_inner">
+		<h1>Fork: ctapi-cyberjack</h1>
+		Dieser Treiber für die Familie der REINER SCT cyberJack pinpad/e-com<br>
+		USB Smart Card-Lesegeräte implementiert die CT-API 1.1 Schnittstelle<br>
+		und ebenso die PC/SC Schnittstelle für pcsc-lite.<br>
+		<br>
+		Folgende Reiner SCT Lesegeräte werden unterstützt:<br>
+		<div id="tbl_reader">
+			<table class="tbl_reader">
+				<thead>
+					<tr><th>Produkt</th><th>VendorID:ProductID</th></tr>
+				</thead>
+				<tbody>
+					<tr><td class="reader">REINER SCT cyberJack pinpad USB</td><td>0c4d:0100</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack pinpad USB</td><td>0c4d:0100</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com USB</td><td>0c4d:0100</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack pinpad(a) USB</td><td>0c4d:0300</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com(a)</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus DUO</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus BIO</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus RFID</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com plus</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack Secoder</td><td>0c4d:0400</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com(f)</td><td>0c4d:0401</td></tr>
+					<tr><td class="reader">REINER SCT cyberJack e-com BIO</td><td>0c4d:0401</td></tr>
+				</tbody>
+			</table>
+		</div><br>
+		Informationen über die Smart Card Lesegeräte finden Sie auf der Herstellerseite<br>
+		unter <a href="http://www.reiner-sct.com/" target="_blank">http://www.reiner-sct.com</a><br>
+		<br>
+		<h3>Funktionen</h3>
+		* zu 100% im Userspace implementiert<br>
+		* alle Zugriffe erfolgen über das USB devfs in /proc/bus/usb (oder /dev/bus/usb bei Verwendung von udev)<br>
+		* ein Patch wurde implementiert, damit der Sourcecode mit gcc 4.7 kompiliert werden kann,<br>
+		&nbsp;&nbsp;&nbsp;inklusive einer Anleitung zum erstellung von Paketen für Debian Wheezy<br>
+		* Open Source, verfügbar unter <a href="https://github.com/larskanis/ctapi-cyberjack.git" target="_blank">https://github.com/larskanis/ctapi-cyberjack.git</a><br>
+		<br>
+		Fork des Quellcode-Repository zur Beteiligung: <a href="https://github.com/SubOptimal/ctapi-cyberjack.git">https://github.com/SubOptimal/ctapi-cyberjack.git</a>
+	</div>
