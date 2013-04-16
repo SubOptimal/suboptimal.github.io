@@ -1,1 +1,1 @@
-Sitemap: http://suboptimal.github.com/sitemap.xml
+Sitemap: http://suboptimal.github.io/sitemap.xml
