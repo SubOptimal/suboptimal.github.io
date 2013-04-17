@@ -17,12 +17,12 @@
 			<div id="menu">
 				<div id="menu_inner">
 					<ul>
-						<li{{ page.home_selected }}>
+						<li{% if page.code_lang == 'none' %} class="selected"{% endif %}>
 							<a href="/index.html" title="root page">
 								<span>/</span>
 							</a>
 						</li>
-						<li{{ page.android_selected }}>
+						<li{% if page.code_lang == 'android' %} class="selected"{% endif %}>
 							<a href="/index.html" title="projects for Android devices">
 								<span>Android</span>
 							</a>
@@ -34,7 +34,7 @@
 								</li>
 							</ul>
 						</li>
-						<li{{ page.c_selected }}>
+						<li{% if page.code_lang == 'cpp' %} class="selected"{% endif %}>
 							<a href="/index.html" title="C/C++ projects">
 								<span>C/C++</span>
 							</a>
@@ -46,7 +46,7 @@
 								</li>
 							</ul>
 						</li>
-						<li{{ page.java_selected }}>
+						<li{% if page.code_lang == 'java' %} class="selected"{% endif %}>
 							<a href="/index.html" title="Java projects">
 								<span>Java</span>
 							</a>
@@ -73,7 +73,7 @@
 								</li>
 							</ul>
 						</li>
-						<li{{ page.perl_selected }}>
+						<li{% if page.code_lang == 'perl' %} class="selected"{% endif %}>
 							<a href="/index.html" title="Perl projects">
 								<span>Perl</span>
 							</a>
@@ -92,10 +92,10 @@
 		</div>
 	</div>
 {{ content }}	<div id="footer">
-		<a id="language_de" name="language_de" href="{{ page.href_de }}" title="show website in german [ALT-G]" accesskey="g">
+		<a id="language_de" name="language_de" href="{{ page.name }}_de.html" title="show website in german [ALT-G]" accesskey="g">
 			<img class="country_flag" alt="country flag - Germany" src="img/de.png">
 		</a>
-		<a id="language_en" name="language_en" href="{{ page.href_en }}" title="show website in english [ALT-E]" accesskey="e">
+		<a id="language_en" name="language_en" href="{{ page.name }}.html" title="show website in english [ALT-E]" accesskey="e">
 			<img class="country_flag" alt="country flag - United Kingdom" src="img/en.png">
 		</a>
 		&copy;&nbsp;2011-2013&nbsp;&nbsp;/&nbsp;&nbsp;<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" title="license of the web page" target="_blank">Creative Commons License</a>
