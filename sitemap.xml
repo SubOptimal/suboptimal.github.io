@@ -72,4 +72,28 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>http://suboptimal.github.io/zon-java.html</loc>
+    <lastmod>2013-04-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://suboptimal.github.io/zon-java_de.html</loc>
+    <lastmod>2013-04-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://suboptimal.github.io/jMemorize.html</loc>
+    <lastmod>2013-04-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://suboptimal.github.io/jMemorize_de.html</loc>
+    <lastmod>2013-04-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
