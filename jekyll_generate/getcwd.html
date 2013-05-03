@@ -1,0 +1,24 @@
+---
+layout: default
+name: getcwd
+permalink: getcwd.html
+code_lang: java
+---
+	<div id="body_inner">
+		<h1>getcwd</h1>
+		JNI (Java Native Interface) library to get the current working directory from which the<br>
+		JVM (Java Virtual Machine) was invoked.<br><br>
+		<h3>Description</h3>
+		The project shows how to create and use an own native method from within Java, using the JNI.<br><br>
+		In very short only three (main) steps are needed for the implementation<br><br>
+		1. write a Java class which declares a native method<br>
+		2. generate a C/C++ header file from the Java class file<br>
+		3. write a C/C++ library which implements the method<br><br>
+		After compiling the library you're done and able to use it.<br><br>
+		For a more detailed explanation and instructions see the files in this project.<br><br>
+		<h3>Features</h3>
+		* the included test demonstrate that the Java system property "user.dir" is not always<br>
+		  a reliable source to get the JVM invokation directory<br>
+		<br>
+		source repository: <a href="https://github.com/SubOptimal/getcwd">https://github.com/SubOptimal/getcwd</a>
+	</div>
