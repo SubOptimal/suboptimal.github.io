@@ -46,7 +46,7 @@
 								</li>
 							</ul>
 						</li>
-						<li>
+						<li class="selected">
 							<a href="/index.html" title="Java projects">
 								<span>Java</span>
 							</a>
@@ -78,7 +78,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class="selected">
+						<li>
 							<a href="/index.html" title="Perl projects">
 								<span>Perl</span>
 							</a>
@@ -97,29 +97,28 @@
 		</div>
 	</div>
 	<div id="body_inner">
-		<h1>Fork: extm3u.pl</h1>
-		This script generates an extended <a href="http://de.wikipedia.org/wiki/M3U" target="_blank">m3u</a> playlist which can be loaded by<br>
-		media players like <a href="http://en.wikipedia.org/wiki/Audacious_%28software%29" target="_blank">Audacious</a>, <a href="http://en.wikipedia.org/wiki/Totem_%28software%29" target="_blank">Totem</a>, <a href="http://en.wikipedia.org/wiki/Winamp" target="_blank">Winamp</a>&trade; and many others.<br>
-		The playlist is printed to STDOUT, so it could be read directly by other programs.<br>
-		Extended .m3u files contain additional information about the song, the duration and<br>
-		the information to be shown by the media player. The informations are extracted<br>
-		from the media tags of the file.<br>
+		<h1>getcwd</h1>
+		Eine JNI (Java Native Interface) Bibliothek zum ermitteln des Startverzeichnises aus dem die<br>
+		JVM (Java Virtual Machine) gestartet wurde.<br><br>
+		<h3>Beschreibung</h3>
+		Das Projekt zeigt wie man eine eigene native Methode, unter Nutzung des JNI, in Java erstellt und anwendet.<br><br>
+		Zusammengefasst lässt sich sagen, dass nur 3 Schritte für die Implementierung benötigt werden.<br><br>
+		1. schreiben einer Java Klasse, die eine native Methode deklariert<br>
+		2. generieren einer C/C++ Headerdatei von der Java Klasse<br>
+		3. schreiben einer C/C++ Bibliothek, welche die Methode implementiert<br><br>
+		Nach kompilieren der Bibliothek kann diese bereits benutzen.<br><br>
+		Eine deutlich ausführlichere Beschreibung und Anleitung findet sich in den Dateien des Projekts.<br><br>
+		<h3>Funktionen</h3>
+		* der enthaltene Test zeigt auf, dass die Java System Property "user.dr" nicht immer eine<br>
+		  verlässliche Quelle ist um das Startverzeichnis der JVM zu ermittlen<br>
 		<br>
-		<h3>Features</h3>
-		* read filenames from specified directories or from STDIN<br>
-		* output the playlist to STDOUT<br>
-		* supported media tags: ID3 (MP3), Vorbis (FLAC, OGG) (optional Perl packages required)<br>
-		* playlist can be generated in a random order<br>
-		* line end (CR, CRLF) and file separator character ('/', '\') can be defined<br>
-		* Open Source, available at <a href="https://github.com/splitbrain/extm3u.git" target="_blank">https://github.com/splitbrain/extm3u.git</a><br>
-		<br>
-		source repository forked to contribute: <a href="https://github.com/SubOptimal/extm3u.git">https://github.com/SubOptimal/extm3u.git</a>
+		source repository: <a href="https://github.com/SubOptimal/getcwd">https://github.com/SubOptimal/getcwd</a>
 	</div>
 	<div id="footer">
-		<a id="language_de" name="language_de" href="extm3u_de.html" title="show website in german [ALT-G]" accesskey="g">
+		<a id="language_de" name="language_de" href="getcwd_de.html" title="show website in german [ALT-G]" accesskey="g">
 			<img class="country_flag" alt="country flag - Germany" src="img/de.png">
 		</a>
-		<a id="language_en" name="language_en" href="extm3u.html" title="show website in english [ALT-E]" accesskey="e">
+		<a id="language_en" name="language_en" href="getcwd.html" title="show website in english [ALT-E]" accesskey="e">
 			<img class="country_flag" alt="country flag - United Kingdom" src="img/en.png">
 		</a>
 		&copy;&nbsp;2011-2013&nbsp;&nbsp;/&nbsp;&nbsp;<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" title="license of the web page" target="_blank">Creative Commons License</a>
