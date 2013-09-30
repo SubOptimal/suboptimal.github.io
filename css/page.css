@@ -78,7 +78,7 @@ body {
 
 /* menu horizontal */
 #menu ul li, #menu ul:hover li.selected {
-	background: none; 
+	background: none;
 	float: left;
 	position: relative;
 }
@@ -133,7 +133,7 @@ body {
 	display: block;
 	float: none;
 	padding: 4px;
-	width: 180px;
+	width: 200px;
 }
 
 /* open drop down */
