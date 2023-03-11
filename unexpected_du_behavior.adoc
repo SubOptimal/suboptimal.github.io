@@ -1,0 +1,426 @@
+:toc:
+:toc-title: A journey into the unexpected behavior of `du`
+:toclevels: 3
+:sectnums: 3
+:doctype: book
+
+== How it started
+
+Everything started with this https://infosec.exchange/@hal_pomeranz/109990984448234864[toot] where https://infosec.exchange/@hal_pomeranz[Hal Pomeranz] asked his followers.
+
+> Sort a list of directories by their total size (including the total size of all files, subdirectories, etc.), presenting the directory sizes in human-readable units ("3.5G", "228M", etc).
+
+== First solution
+
+```[code shell]
+find /usr/share -type d -exec du -sh {} + | sort -h
+```
+
+=== Quick check
+
+Curious (as always) I did a quick check to compare the number of directories below `/usr/share` and the result of the command.
+
+To my big surprise the numbers did not match. 🤔
+
+```
+$ find /usr/share -type d | wc -l
+28677
+$ find /usr/share -type d -exec du -sh {} + | wc -l
+4771
+```
+
+After comparing the list of directories from the results. It appeared that the `find + du` solution missed some subdirectories.
+
+== Second solution
+
+After noticing this discrepancy the answer was changed to a solution which uses the `--depth` option in `find`. To process first the content of the directory and after the directory itself.
+
+```[code shell]
+$ find /usr/share -type d | wc -l
+28677
+$ find /usr/share -depth -type d -exec du -sh {} + | wc -l
+28677
+```
+
+Now the number of returned directories in the results matched.
+
+=== Quick check
+
+A new check revealed there is still some discrepancy in the result.
+
+_last two rows from the last posted solution_
+```[code shell]
+$ find /usr/share -depth -type d -exec du -sh {} + | sort -h | tail -2
+493M    /usr/share/doc
+5.3G    /usr/share
+```
+
+_quick verification of the two sizes_
+```[code shell]
+$ du -sh /usr/share/doc
+528M    /usr/share/doc
+$ du -sh /usr/share/
+5.6G    /usr/share/
+```
+
+🤔 Where this size discrepancy is coming from?
+
+== Explanation of the observed behavior
+
+=== TL;DR; - Short explanation
+
+The order of directories passed as parameter to `du` really matter in certain cases.
+
+- subdirectories following after their parent directory are not processed separately in the output
+- parent directories following their subdirectories will not accumulate their size to their own size
+- this gets even more important if related parent- and subdirectories are split over multiple `du`  invocations
+
+=== Detailed explanation
+
+For better illustration a demo directory structure is created as follows.
+
+```[code shell]
+$ mkdir -rf /tmp/dir-sizes
+$ mkdir -p /tmp/dir-sizes/parent_dir/subdir_{1,2,3,4,5}<
+$ find /tmp/dir-sizes/ -type d
+/tmp/dir-sizes/
+/tmp/dir-sizes/parent_dir
+/tmp/dir-sizes/parent_dir/subdir_4
+/tmp/dir-sizes/parent_dir/subdir_5
+/tmp/dir-sizes/parent_dir/subdir_2
+/tmp/dir-sizes/parent_dir/subdir_1
+/tmp/dir-sizes/parent_dir/subdir_3
+```
+
+==== How `find` constructs the `du` command
+
+Let's have a look on how the `du` command is constructed and execute by `find`.
+
+If we issue the command `find /tmp/dir-sizes -type d -exec du -sh {} +` (first solution) the executed `du` will be.
+
+```[code shell]
+du -sh /tmp/dir-sizes/ \
+    /tmp/dir-sizes/parent_dir \
+    /tmp/dir-sizes/parent_dir/subdir_4 \
+    /tmp/dir-sizes/parent_dir/subdir_5 \
+    /tmp/dir-sizes/parent_dir/subdir_2 \
+    /tmp/dir-sizes/parent_dir/subdir_1 \
+    /tmp/dir-sizes/parent_dir/subdir_3
+```
+
+By default, `find` processes first the directory and after its content. So the directory `/tmp/dir-sizes/parent_dir` is processed before the contained subdirectories.
+
+As subdirectories following their parent directory (in the parameter list) will be ignored by `du`, the following two commands produce the same output. That explains the missing subdirectories in the result.
+
+```[code shell]
+$ du -sh /tmp/dir-sizes/ \
+28K    /tmp/dir-sizes
+
+$ du -sh /tmp/dir-sizes/ \
+    /tmp/dir-sizes/parent_dir \
+    /tmp/dir-sizes/parent_dir/subdir_4 \
+    /tmp/dir-sizes/parent_dir/subdir_5 \
+    /tmp/dir-sizes/parent_dir/subdir_2 \
+    /tmp/dir-sizes/parent_dir/subdir_1 \
+    /tmp/dir-sizes/parent_dir/subdir_3
+28K    /tmp/dir-sizes
+```
+
+The second solution proposed to use the `--depth` option in `find`. This will process first the content of the directory and after the directory itself.
+
+Following `du` command is constructed and executed by `find`.
+
+```[code shell]
+du -sh /tmp/dir-sizes/parent_dir/subdir_2 \
+    /tmp/dir-sizes/parent_dir/subdir_4 \
+    /tmp/dir-sizes/parent_dir/subdir_3 \
+    /tmp/dir-sizes/parent_dir/subdir_1 \
+    /tmp/dir-sizes/parent_dir/subdir_5 \
+    /tmp/dir-sizes/parent_dir \
+    /tmp/dir-sizes/
+```
+
+If parent directories follow their subdirectories in the parameter list, the size of the subdirectories is not added to the size of the parent directory. Because of that, the output looks now different.
+
+```[code shell]
+$ find /tmp/dir-sizes/ -depth -type d -exec du -sh {} +
+4.0K    /tmp/dir-sizes/parent_dir/subdir_2
+4.0K    /tmp/dir-sizes/parent_dir/subdir_4
+4.0K    /tmp/dir-sizes/parent_dir/subdir_3
+4.0K    /tmp/dir-sizes/parent_dir/subdir_1
+4.0K    /tmp/dir-sizes/parent_dir/subdir_5
+4.0K    /tmp/dir-sizes/parent_dir
+4.0K    /tmp/dir-sizes/
+```
+
+The output shows, each directory is reported with its own size only (the size of one filesystem block, as the demo directories are empty). This explains the different sizes in the result.
+
+A solution which after a first test seemed to solve both issues was `find /tmp/dir-sizes/ -type d -exec du -h {} +`.
+
+When the command is executed, the size of the subdirectories is added to the size of the respective parent directory. Like it was requested initially.
+
+```[code shell]
+$ find /tmp/dir-sizes/ -type d -exec du -h {} +
+4.0K    /tmp/dir-sizes/parent_dir/subdir_2
+4.0K    /tmp/dir-sizes/parent_dir/subdir_4
+4.0K    /tmp/dir-sizes/parent_dir/subdir_3
+4.0K    /tmp/dir-sizes/parent_dir/subdir_1
+4.0K    /tmp/dir-sizes/parent_dir/subdir_5
+24K    /tmp/dir-sizes/parent_dir
+28K    /tmp/dir-sizes/
+```
+
+But when the command is executed for directory `/usr/share` the result still showed some issues.
+
+```[code shell]
+$ find /usr/share/ -type d -exec du -h {} + | sort -h | tail -5
+528M    /usr/share/doc
+528M    /usr/share/doc
+837M    /usr/share/locale
+837M    /usr/share/locale
+5.6G    /usr/share/
+```
+
+After some investigation it was discovered that it must be related to multiple invocations of `du`.
+
+Because of the large number of directories in `/usr/share` and the maximum size of arguments for a process, `find` executes `du` multiple times.
+
+For demonstration purposes, the constructed `du` command is output to the console. Only the first 60 characters are displayed, the rest of the line is truncated.
+
+_default 'find' and non-summarizing 'du'_
+```[code shell]
+$ find /usr/share/ -type d -exec echo du -h {} + | sed -rn "s/^(.{,60}).*/\1 .../p"
+du -h /usr/share/ /usr/share/sayonara /usr/share/sayonara/tr ...
+du -h /usr/share/go-1.19/src/cmd/vendor/golang.org/x/tools/g ...
+du -h /usr/share/javascript/mathjax/jax/output/HTML-CSS/font ...
+du -h /usr/share/nodejs/package-hash /usr/share/nodejs/minip ...
+du -h /usr/share/ri/3.1.0/system/Gem/MissingSpecError /usr/s ...
+du -h /usr/share/openclipart/svg/animals/birds/penguin /usr/ ...
+du -h /usr/share/doc/libsndio-dev /usr/share/doc/vlc-plugin- ...
+du -h /usr/share/doc/libmodplug1 /usr/share/doc/smemstat /us ...
+du -h /usr/share/maven-repo/org/gradle/gradle-tooling-api-bu ...
+du -h /usr/share/help/C/sound-juicer /usr/share/help/C/sound ...
+```
+
+_default 'find' and summarizing 'du'_
+```[code shell]
+$ find /usr/share/ -type d -exec echo du -sh {} + | sed -rn "s/^(.{,60}).*/\1 .../p"
+du -sh /usr/share/ /usr/share/sayonara /usr/share/sayonara/t ...
+du -sh /usr/share/go-1.19/src/cmd/vendor/golang.org/x/tools/ ...
+du -sh /usr/share/javascript/mathjax/jax/output/HTML-CSS/fon ...
+du -sh /usr/share/nodejs/package-hash /usr/share/nodejs/mini ...
+du -sh /usr/share/ri/3.1.0/system/Gem/MissingSpecError /usr/ ...
+du -sh /usr/share/openclipart/svg/animals/birds/penguin /usr ...
+du -sh /usr/share/doc/libsndio-dev /usr/share/doc/vlc-plugin ...
+du -sh /usr/share/doc/libmodplug1 /usr/share/doc/smemstat /u ...
+du -sh /usr/share/maven-repo/org/gradle/gradle-tooling-api-b ...
+du -sh /usr/share/help/C/sound-juicer /usr/share/help/C/soun ...
+```
+
+_'find' with depth and summarizing 'du'_
+```[code shell]
+$ find /usr/share/ -depth -type d -exec echo du -sh {} + | sed -rn "s/^(.{,60}).*/\1 .../p"
+du -sh /usr/share/sayonara/translations/icons /usr/share/say ...
+du -sh /usr/share/go-1.19/src/cmd/vendor/golang.org/x/tools/ ...
+du -sh /usr/share/javascript/mathjax/jax/output/HTML-CSS/fon ...
+du -sh /usr/share/nodejs/mkdirp/lib /usr/share/nodejs/mkdirp ...
+du -sh /usr/share/ri/3.1.0/system/Gem/MissingSpecError /usr/ ...
+du -sh /usr/share/openclipart/svg/animals/birds /usr/share/o ...
+du -sh /usr/share/doc/libconfig9 /usr/share/doc/libjsoup-jav ...
+du -sh /usr/share/doc/libgadu3 /usr/share/doc/libgudev-1.0-0 ...
+du -sh /usr/share/maven-repo/org/gradle/gradle-tooling-api-b ...
+du -sh /usr/share/help/C/drawing/figures /usr/share/help/C/d ...
+```
+
+All outputs show that the directories are not passed to `du` in alphabetical order. Related to this, the chain of a parent directory and its subdirectories could be passed to different `du` calls.
+
+==== How does this impact the result?
+
+To illustrate this parameter division, the `du` command is divided here after the fourth parameter.
+
+- _default 'find' and non-summarizing 'du'_
+```[code shell]
+du -h /tmp/dir-sizes/ \
+    /tmp/dir-sizes/parent_dir \
+    /tmp/dir-sizes/parent_dir/subdir_2 \
+    /tmp/dir-sizes/parent_dir/subdir_4
+du -h tmp/dir-sizes/parent_dir/subdir_3 \
+    /tmp/dir-sizes/parent_dir/subdir_1 \
+    /tmp/dir-sizes/parent_dir/subdir_5
+```
+
+The combined output is
+
+```[code shell]
+ 1:  4.0K    /tmp/dir-sizes/parent_dir/subdir_2
+ 2:  4.0K    /tmp/dir-sizes/parent_dir/subdir_4
+ 3:  4.0K    /tmp/dir-sizes/parent_dir/subdir_3
+ 4:  4.0K    /tmp/dir-sizes/parent_dir/subdir_1
+ 5:  4.0K    /tmp/dir-sizes/parent_dir/subdir_5
+ 6:  24K    /tmp/dir-sizes/parent_dir
+ 7:  28K    /tmp/dir-sizes/
+ 8:  4.0K    /tmp/dir-sizes/parent_dir/subdir_3
+ 9:  4.0K    /tmp/dir-sizes/parent_dir/subdir_1
+10:  4.0K    /tmp/dir-sizes/parent_dir/subdir_5
+```
+
+The lines 1-7 are from the first invocation and lines 8-10 from the second. Which explains the duplicated lines in the output of `find /usr/share/ -type d -exec du -h {} + | sort -h` (the tried third solution).
+
+- _'find' with depth and summarizing 'du'_
+```[code shell]
+du -sh /tmp/dir-sizes/parent_dir/subdir_2 \
+    /tmp/dir-sizes/parent_dir/subdir_4 \
+    /tmp/dir-sizes/parent_dir/subdir_3 \
+    /tmp/dir-sizes/parent_dir/subdir_1
+du -sh /tmp/dir-sizes/parent_dir/subdir_5 \
+    /tmp/dir-sizes/parent_dir \
+    /tmp/dir-sizes/
+```[code shell]
+
+The combined output is
+
+```[code shell]
+ 1:  4.0K    /tmp/dir-sizes/parent_dir/subdir_2
+ 2:  4.0K    /tmp/dir-sizes/parent_dir/subdir_4
+ 3:  4.0K    /tmp/dir-sizes/parent_dir/subdir_3
+ 4:  4.0K    /tmp/dir-sizes/parent_dir/subdir_1
+ 5:  4.0K    /tmp/dir-sizes/parent_dir/subdir_5
+ 6:  20K    /tmp/dir-sizes/parent_dir
+ 7:  4.0K    /tmp/dir-sizes/
+```
+
+The lines 1-4 are from the first invocation and lines 5-7 from the second. In the output the lines 5-7 are the most interesting ones.
+
+- 5 - shows only its own size, as there are no files or other subdirectories contained
+- 6 - shows the sum of the sizes of `subdir_[1234]` and `/tmp/dir-sizes/parent_dir`, `subdir_5` is not included, as it was before `/tmp/dir-sizes/parent_dir` in the parameter list
+- 7 - shows only the size of `/tmp/dir-sizes` itself, as the only contained object `/tmp/dir-sizes/parent_dir` was before `/tmp/dir-sizes` in the parameter list
+
+== Conclusion
+
+To prevent the problems mentioned above when `du` is executed by `find`, the following would have to be ensured:
+- parent directories must be always before their subdirectories in the parameter list
+- parent directories and their subdirectories should not be split to multiple invocations of `du`
+
+Following command would achieve the above requirements `find /usr/share/ -type d -print0 | du -h --files0-from - | sort -h`.
+
+Few quick checks
+
+```[code shell]
+$ find /usr/share/ -type d -print0 | du -h --files0-from - | sort -h | tail -5
+344M    /usr/share/openclipart
+379M    /usr/share/code
+528M    /usr/share/doc
+837M    /usr/share/locale
+5.6G    /usr/share/
+
+# check the total size for each of the above directories separately
+$ du -sh /usr/share/openclipart
+344M    /usr/share/openclipart
+$ du -sh /usr/share/code
+379M    /usr/share/code
+$ du -sh /usr/share/doc
+528M    /usr/share/doc
+$ du -sh /usr/share/locale
+837M    /usr/share/locale
+$ du -sh /usr/share/
+5.6G    /usr/share/
+
+# check the number of directories processed by find and du
+$ find /usr/share/ -type d -print0 | du -h --files0-from - | wc -l
+28677
+
+# check the number of directories processed by find only
+$ find /usr/share/ -type d | wc -l
+28677
+```
+
+That seems to be correct.
+
+== Final solution
+
+If we don't instruct `du` to summarise the result, it will itself traverses through a given directory and all the subdirectories it contains.
+
+```[code shell]
+$ du -h /tmp/dir-sizes/
+4.0K    /tmp/dir-sizes/parent_dir/subdir_2
+4.0K    /tmp/dir-sizes/parent_dir/subdir_4
+4.0K    /tmp/dir-sizes/parent_dir/subdir_3
+4.0K    /tmp/dir-sizes/parent_dir/subdir_1
+4.0K    /tmp/dir-sizes/parent_dir/subdir_5
+24K    /tmp/dir-sizes/parent_dir
+28K    /tmp/dir-sizes/
+```
+
+The output shows that for the top directory `/tmp/dir-sizes` the respective sizes of all contained subdirectories are also displayed. The size of `/tmp/dir-sizes` is the sum of all subdirectories contained.
+
+Taking into account the above, we could do without the subdirectories in the parameter list. So the final solution to the initial request is.
+
+```[code shell]
+$ du -h /usr/share/ | sort -h
+```
+
+== Lessons learned
+
+From this request I learned about the `--exec command {} +` functionality of the `find` command and the specific behavior of `du` depending on the order of parent- and their subdirectories.
+
+== Practical use
+
+The order of the parameters of `du` can be used to get a special result.
+
+- create a directory structure with some files included (using a tiny script to make it easier to read)
+```[code shell]
+#!/bin/bash
+
+rm -rf /tmp/dir-sizes
+for i in {1..5}
+do
+  dir=/tmp/dir-sizes/parent_dir/subdir_${i}
+  mkdir -p ${dir}
+  # create a file with a multiple of the filesystem blocksize (4096)
+  # only for the first four subdirectories, the fifth subdirectory stays intentionally empty
+  if [[ $i < 5 ]]
+  then
+    dd if=/dev/zero of=${dir}/file_${i}_fs_block bs=4096 count=${i}
+  fi
+done
+```
+
+It creates the following structure. The number in the filename specifies the number of filesystem blocks.
+
+```[code shell]
+/tmp/dir-sizes/
+/tmp/dir-sizes/parent_dir
+/tmp/dir-sizes/parent_dir/subdir_1
+/tmp/dir-sizes/parent_dir/subdir_1/file_1_fs_block
+/tmp/dir-sizes/parent_dir/subdir_2
+/tmp/dir-sizes/parent_dir/subdir_2/file_2_fs_block
+/tmp/dir-sizes/parent_dir/subdir_3
+/tmp/dir-sizes/parent_dir/subdir_3/file_3_fs_block
+/tmp/dir-sizes/parent_dir/subdir_4
+/tmp/dir-sizes/parent_dir/subdir_4/file_4_fs_block
+/tmp/dir-sizes/parent_dir/subdir_5
+```
+
+- default `du` behavior, accumulate the contained file and subdirectory sizes
+```[code shell]
+$ du -h /tmp/dir-sizes/
+12K    /tmp/dir-sizes/parent_dir/subdir_2
+20K    /tmp/dir-sizes/parent_dir/subdir_4
+16K    /tmp/dir-sizes/parent_dir/subdir_3
+8.0K   /tmp/dir-sizes/parent_dir/subdir_1
+4.0K   /tmp/dir-sizes/parent_dir/subdir_5
+64K    /tmp/dir-sizes/parent_dir
+68K    /tmp/dir-sizes/
+```
+
+- show only the size of the directory and the files it contains, without adding the subdirectory sizes
+```[code shell]
+$ find /tmp/dir-sizes/ -depth -type d -exec du -h {} +
+12K    /tmp/dir-sizes/parent_dir/subdir_2
+20K    /tmp/dir-sizes/parent_dir/subdir_4
+16K    /tmp/dir-sizes/parent_dir/subdir_3
+8.0K   /tmp/dir-sizes/parent_dir/subdir_1
+4.0K   /tmp/dir-sizes/parent_dir/subdir_5
+4.0K   /tmp/dir-sizes/parent_dir
+4.0K   /tmp/dir-sizes/
+```
